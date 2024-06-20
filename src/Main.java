@@ -8,11 +8,9 @@ public class Main {
         Vokabel v1 = new Vokabel("Hund", "Dog");
         Vokabel v2 = new Vokabel("Katze", "Cat");
 
-        Vokabel[] vokabelnArray = new Vokabel[10]; //Array vokabeldatentyp erzeugen
-        vokabelnArray[0] = v1;
-        vokabelnArray[1] = v2;
-        int index = 2;// speichert, die menge an vokabeln im array
-
+        VokabelListe vl = new VokabelListe();
+        vl.addVokabel(v1);
+        vl.addVokabel(v2);
 
         String eingabe;
         Scanner sc = new Scanner(System.in);
@@ -23,32 +21,34 @@ public class Main {
 
 //Spielstart, Abfrage nach neuer Runde
         while (!eingabe.equalsIgnoreCase("x")) { //spiel laeuft solange man nicht X drueckt
-            if (eingabe.equalsIgnoreCase("t")) {  //training starten
 
-                //Methoden Vokabelabfrage aufrufen
-                for (int i = 0; i <= index - 1; i++) {
+            if (eingabe.equalsIgnoreCase("t")) {
 
-                    Vokabel v = vokabelnArray[i];
-                    trainiereVokabel(v);
+                //training starten
+                System.out.println("Trainingsmodus: Einprägen(1) oder Abfragen(2)");
+                int modus = Integer.parseInt(sc.next());
+                Vokabel[] vokabeln = vl.getVokabeln();
 
+                if (modus == 1) {
+                    TrainingstypLernen t = new TrainingstypLernen();
+                    t.trainiere(vokabeln);
                 }
 
-
+                if (modus == 2) {
+                    TrainigstypAbfragen t = new TrainigstypAbfragen();
+                    t.trainiere(vokabeln);
+                }
             }
             if (eingabe.equalsIgnoreCase("n")) {//eigene neue vokabel anlegen
-              if(index< vokabelnArray.length){
+
                 System.out.println("Vokabel deutsch:");
                 String vd = sc.next();
                 System.out.println("Vokabel englisch:");
                 String ve = sc.next();
                 Vokabel v = new Vokabel(vd, ve);         //neue vokabel erschaffen mit konstruktor standardwert deutsch und englisch
-                vokabelnArray[index] = v;
-                index++;}
-              else{
-                  System.out.println("Kein freier Speicherplatz");
-              }
-            }
+                vl.addVokabel(v);
 
+            }
 
             System.out.println("Neue Vokabel (n), neues Training (t), Beenden (x)");
             eingabe = sc.next();
@@ -58,28 +58,5 @@ public class Main {
         System.out.println("Erfolgsquote: " + v1.getErfolgsquote());
     }
 
-    //METHODE Vokabel abfragen
-    private static void trainiereVokabel(Vokabel v) {
-        v.update_anzahlTrainings();
 
-        Scanner sc = new Scanner(System.in);
-
-        System.out.println(v.getVokabel_deutsch());
-        System.out.println("Gib die Übersetzung ein!");
-
-        String uebersetzung = sc.next();
-//Vergleich ob Vokabel korrekt
-        if (uebersetzung.equalsIgnoreCase(v.getVokabel_englisch())) {
-            System.out.println("Das ist richtig!");
-            v.update_anzahlErfolgreich();
-        } else {
-            System.out.println("Das ist falsch!");
-            System.out.println("Richtige Lösung anzeigen ? ja/nein");
-            String loesen = sc.next();
-            if (loesen.equalsIgnoreCase("ja")) {
-                System.out.println(v.getVokabel_englisch() + " <<< richtige Vokabel");
-            }
-
-        }
-    }
 }

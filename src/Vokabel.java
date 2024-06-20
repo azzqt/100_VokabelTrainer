@@ -22,6 +22,7 @@ public class Vokabel {
     //Private int damit man sie nicht ausversehen aendern kann
     private int anzahl_trainings = 0;
     private int anzahl_erfolgreich = 0;
+
     //Methode zum erhöhen der erfolgreichen und trainings
     public void update_anzahlTrainings() {
         anzahl_trainings++;
@@ -29,11 +30,12 @@ public class Vokabel {
     public void update_anzahlErfolgreich() {
         anzahl_erfolgreich++;
     }
+
     //Methoden zum Aufruf der absolvierten Trainings
     public int getAnzahl_trainings() {
         return anzahl_trainings;
     }
-    //Erfolgsquoute berechnen in duble wegen komma
+    //Erfolgsquoute berechnen in double wegen komma
     public double getErfolgsquote() {
         return (double) this.anzahl_erfolgreich / this.anzahl_trainings;
     }
